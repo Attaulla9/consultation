@@ -2,25 +2,23 @@
   <div class="">
     <!-- <p>Check BMI</p> -->
     <div v-if="loading">
-      <div class="md:w-9/12 grid grid-cols-2 gap-4 px-2 py-2 mt-10 mx-auto">
+      <div class="md:w-1/2 grid grid-cols-2 gap-4 px-2 py-2 mt-10 mx-auto">
         <button
           class="py-2 px-4 bg-blue-200 rounded-lg text-center font-bold"
           v-for="(item, name, index) in timeSlot"
           :key="index"
-          :class="{ 'bg-green-300': index === 0 }"
           @click="selectdate(item, name)"
-          :selectedValue="{ name: index == 0 }"
         >
-          {{ name  }}
+          {{ name }}
         </button>
       </div>
 
-      <div class="md:w-3/4 grid grid-cols-3 gap-3 px-2 mx-auto">
+      <div class="mt-10 md:w-1/3 grid grid-cols-3 gap-3 px-2 mx-auto"> 
         <button
           class="py-2 px-4 rounded shadow-md"
           @click="getTime(slot.slot)"
           v-for="(slot, index) in slots"
-          :class="slot.colour == 'yellow' ? 'bg-yellow-400' : 'bg-green-200'"
+          :class="slot.colour == 'yellow' ? 'bg-yellow-200' : 'bg-green-200'"
           :key="index"
         >
           {{ slot.slot }}
@@ -60,7 +58,6 @@ export default {
   },
   filters: {
     capitalize: function (value) {
-     
       return value;
     },
 
