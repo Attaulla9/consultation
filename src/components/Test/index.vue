@@ -1,36 +1,28 @@
 <template>
   <div class="md:w-2/3 mx-auto">
     <div v-if="loading">
-      <div class="grid grid-cols-2 gap-4 px-2 py-2 mt-10 mx-auto">
-        <label
+      <div class="flex flex-wrap gap-4 mt-10 px-2 justify-center">
+        <div
+          class="radio-group"
           v-for="(item, value, index) in AllSlots"
           :key="index"
           :value="value"
-          class="radio-group px-4 py-2 m-4 shadow rounded"
-          :class="checked == value ? 'bg-green-400' : 'bg-indigo-200'"
         >
           <input
             type="radio"
             :id="'data' + index"
             name="data-slot"
-            class="py-2 px-4 rounded shadow cursor-pointer hidden"
+            class="py-2 px-4 rounded shadow cursor-pointer"
             :value="value"
             v-model="checked"
           />
-          {{ value }}
-        </label>
+          <label :for="'data' + index">{{ value }} </label>
+        </div>
       </div>
-
-      <div class="mt-10 grid grid-cols-3 gap-3 px-2 mx-auto">
-        <button
-          class="py-2 px-4 rounded shadow-md"
-          v-for="(slot, index) in AllSlots[checked]"
-          :key="index"
-          :class="slot.colour == 'yellow' ? 'bg-green-200' : 'bg-yellow-300'"
-        >
-          {{ slot.slot }}
-        </button>
-      </div>
+      <p>{{ AllSlots[checked] }}</p>
+      <!-- <div  v-for="(item, value, index) in AllSlots[checked]" :key="index">
+        <p>{{item}}</p>
+      </div> -->
     </div>
     <div
       v-else
@@ -56,16 +48,17 @@ export default {
       AllSlots: "",
       Timeslots: "",
       checked: "",
-     
     };
   },
   mounted() {
     var dt = new Date();
+
     let year = dt.getFullYear();
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
     let day = dt.getDate().toString().padStart(2, "0");
-    const today = year + "-" + month + "-" + day;
-    this.checked = today;
+
+    const today=year + "-" + month + "-" + day;
+    this.checked=today
   },
 
   async created() {
@@ -83,7 +76,6 @@ export default {
   },
 };
 </script>
-
 
 <style scoped>
 .active {
