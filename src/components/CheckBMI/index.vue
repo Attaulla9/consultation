@@ -1,12 +1,23 @@
 <template>
   <div class="md:w-2/3 mx-auto">
     <div v-if="loading">
-      <div class="grid grid-cols-2 gap-4 px-2 py-2 mt-10 mx-auto">
+      <div
+        class="
+          md:w-1/2
+          grid grid-cols-4
+          text-center
+          gap-4
+          px-2
+          py-2
+          mt-10
+          mx-auto
+        "
+      >
         <label
           v-for="(item, value, index) in AllSlots"
           :key="index"
           :value="value"
-          class="radio-group px-4 py-2 m-4 shadow rounded"
+          class="radio-group px-4 py-2 m-2 shadow rounded"
           :class="checked == value ? 'bg-green-400' : 'bg-indigo-200'"
         >
           <input
@@ -17,15 +28,33 @@
             :value="value"
             v-model="checked"
           />
-          {{ value }}
+          <p v-for="(item, index) in dateFormate(value)" :key="index">
+            {{ item }}
+          </p>
+          <!-- {{ dateFormate(value) }} -->
         </label>
       </div>
 
-      <div class="mt-10 grid grid-cols-3 gap-3 px-2 mx-auto">
+      <div
+        class="
+          mt-10
+          grid
+          md:grid-cols-6
+          grid-cols-3
+          gap-3
+          px-2
+          mx-auto
+          transform
+          transition-all
+          duration-700
+          ease-in
+        "
+      >
         <button
           class="py-2 px-4 rounded shadow-md"
           v-for="(slot, index) in AllSlots[checked]"
           :key="index"
+          @click="getTime(slot.slot)"
           :class="slot.colour == 'yellow' ? 'bg-green-200' : 'bg-yellow-300'"
         >
           {{ slot.slot }}
@@ -56,21 +85,49 @@ export default {
       AllSlots: "",
       Timeslots: "",
       checked: "",
-     
     };
+  },
+  computed: {
+    dateFormate(value) {
+      return (value) => {
+        let arrOfDate = [];
+        let val = value.split("-");
+        val.map((element, index) => {
+          var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+          if (index == 1) {
+            element = weekDays[index];
+          }
+          arrOfDate.push(element);
+        });
+        console.log(arrOfDate);
+        return val;
+      };
+    },
   },
   mounted() {
     var dt = new Date();
     let year = dt.getFullYear();
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
-    let day = dt.getDate().toString().padStart(2, "0");
-    const today = year + "-" + month + "-" + day;
-    this.checked = today;
+    let day = (dt.getDate() + 1).toString().padStart(2, "0");
+    let day1 = dt.getDate().toString().padStart(2, "0");
+    // time
+    var time = dt.getHours();
+    var minute = dt.getMinutes();
+    var timeToCheck = time + ":" + minute;
+    if (timeToCheck < "19:30") {
+      let today = year + "-" + month + "-" + day1;
+      this.checked = today;
+    } else {
+      let today = year + "-" + month + "-" + day; 
+      this.checked = today;
+    }
+    // console.log(this.checked);
   },
 
   async created() {
     this.fetchdata();
   },
+
   methods: {
     async fetchdata() {
       const res = await axios
@@ -79,6 +136,9 @@ export default {
           this.AllSlots = res.data.data;
           this.loading = true;
         });
+    },
+    getTime(e) {
+      console.log(e);
     },
   },
 };
