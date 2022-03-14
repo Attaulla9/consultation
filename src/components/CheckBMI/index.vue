@@ -9,7 +9,7 @@
           gap-4
           px-2
           py-2
-          mt-10
+          mt-4
           mx-auto
         "
       >
@@ -17,8 +17,18 @@
           v-for="(item, value, index) in AllSlots"
           :key="index"
           :value="value"
-          class="radio-group px-4 py-2 m-2 shadow rounded"
-          :class="checked == value ? 'bg-green-400' : 'bg-indigo-200'"
+          class="
+            radio-group
+            px-4
+            py-2
+            m-2
+            shadow-md
+            rounded
+            text-sky-800
+            border-2 border-sky-600
+            mx-auto
+          "
+          :class="checked == value ? 'bg-sky-100' : 'bg-white'"
         >
           <input
             type="radio"
@@ -31,13 +41,13 @@
           <p v-for="(item, index) in dateFormate(value)" :key="index">
             {{ item }}
           </p>
-          <!-- {{ dateFormate(value) }} -->
         </label>
       </div>
+      <p class="text-center text-sky-800 font-bold space-x-2"><span class="inline-block">{{ checked }}</span><span class="text-sky-700 inline-block"> {{selectedTime}}</span></p>
 
       <div
         class="
-          mt-10
+          mt-6
           grid
           md:grid-cols-6
           grid-cols-3
@@ -51,16 +61,62 @@
         "
       >
         <button
-          class="py-2 px-4 rounded shadow-md"
+          class="
+            py-2
+            px-4
+            rounded
+            shadow-lg
+            border-2 border-sky-300
+            font-medium
+            focus:bg-sky-800 focus:text-white focus:border-white
+          "
           v-for="(slot, index) in AllSlots[checked]"
           :key="index"
           @click="getTime(slot.slot)"
-          :class="slot.colour == 'yellow' ? 'bg-green-200' : 'bg-yellow-300'"
+          :class="
+            slot.colour == 'yellow'
+              ? ['bg-white', 'text-sky-600']
+              : ['bg-yellow-200', 'text-sky-800']
+          "
         >
           {{ slot.slot }}
         </button>
       </div>
+
+      <div class="px-2 mb-20 mt-10 flex flex-row justify-center space-x-2">
+        <p class="flex justify-center items-center space-x-2">
+          <span class="h-5 w-5 bg-yellow-300"></span><span>Fast Filling</span>
+        </p>
+        <p class="flex justify-center items-center space-x-2">
+          <span class="h-5 w-5 bg-red-300"></span><span>Fast Filling</span>
+        </p>
+        <p class="flex justify-center items-center space-x-2">
+          <span class="h-5 w-5 border-2 border-sky-800"></span
+          ><span>Fast Filling</span>
+        </p>
+      </div>
+      <div
+        class="
+          fixed
+          bottom-0
+          left-0
+          w-full
+          p-1
+          border-t-4
+          bg-white
+          border-sky-100
+          shadow-lg
+          text-center
+        "
+      >
+        <button
+          class="py-2 font-semibold px-12 bg-sky-600 text-white rounded-md"
+        >
+          Book
+        </button>
+      </div>
     </div>
+
     <div
       v-else
       class="
@@ -84,23 +140,30 @@ export default {
       loading: false,
       AllSlots: "",
       Timeslots: "",
+      selectedTime: "",
       checked: "",
     };
+  },
+  watch:{
+    checked(){
+      this.selectedTime=''
+      
+    }
   },
   computed: {
     dateFormate(value) {
       return (value) => {
         let arrOfDate = [];
         let val = value.split("-");
-        val.map((element, index) => {
-          var weekDays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-          if (index == 1) {
-            element = weekDays[index];
-          }
-          arrOfDate.push(element);
-        });
-        console.log(arrOfDate);
-        return val;
+        let todayDate = new Date(value);
+        let todayDay = todayDate.getDay();
+        let daysName = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        console.log(daysName[todayDay]);
+        arrOfDate.push(daysName[todayDay]);
+        arrOfDate.push(val[2]);
+        arrOfDate.push(val[0]);
+
+        return arrOfDate;
       };
     },
   },
@@ -118,7 +181,7 @@ export default {
       let today = year + "-" + month + "-" + day1;
       this.checked = today;
     } else {
-      let today = year + "-" + month + "-" + day; 
+      let today = year + "-" + month + "-" + day;
       this.checked = today;
     }
     // console.log(this.checked);
@@ -138,7 +201,8 @@ export default {
         });
     },
     getTime(e) {
-      console.log(e);
+      this.selectedTime = e;
+      // console.log(this.selectedTime);
     },
   },
 };
