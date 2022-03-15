@@ -7,8 +7,8 @@
       <p>( 30 minutes consultation )</p>
       <p>Please Select Date & Time</p>
     </div>
-    <div v-if="loading" >
-      <div class="md:w-1/2 grid grid-cols-4 text-center py-2 mx-auto ">
+    <div v-if="loading">
+      <div class="md:w-1/2 grid grid-cols-4 text-center py-2 mx-auto">
         <label
           v-for="(item, value, index) in AllSlots"
           :key="index"
@@ -50,12 +50,14 @@
       <div class="grid md:grid-cols-6 grid-cols-3 gap-3 px-2 mx-auto">
         <button
           class="
+            transition-all
+            duration-250
+            ease-in-out
             p-2
             rounded
             shadow shadow-gray-400
             font-medium
             focus:bg-sky-800 focus:text-white focus:border-white
-            
           "
           v-for="(slot, index) in AllSlots[checked]"
           :key="index"
@@ -172,7 +174,7 @@ export default {
         let val = value.split("-");
         let todayDate = new Date(value);
         let todayDay = todayDate.getDay();
-        let daysName = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
+        let daysName = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
         // console.log(daysName[todayDay]);
         arrOfDate.push(daysName[todayDay]);
         arrOfDate.push(val[2]);
@@ -187,19 +189,9 @@ export default {
     let year = dt.getFullYear();
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
     let day = dt.getDate().toString().padStart(2, "0");
-    let day1 = (dt.getDate() + 1).toString().padStart(2, "0");
     // time
-    var time = dt.getHours();
-    var minute = dt.getMinutes();
-    var timeToCheck = time + ":" + minute;
-    if (timeToCheck < "19:30") {
-      console.log(timeToCheck < "19:30");
-      let today = year + "-" + month + "-" + day;
-      this.checked = today;
-    } else {
-      let today = year + "-" + month + "-" + day1;
-      this.checked = today;
-    }
+    let today = year + "-" + month + "-" + day;
+    this.checked = today;
     console.log(this.checked);
   },
 
