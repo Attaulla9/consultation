@@ -7,8 +7,8 @@
       <p>( 30 minutes consultation )</p>
       <p>Please Select Date & Time</p>
     </div>
-    <div v-if="loading">
-      <div class="md:w-1/2 grid grid-cols-4 text-center py-2 mx-auto">
+    <div v-if="loading" >
+      <div class="md:w-1/2 grid grid-cols-4 text-center py-2 mx-auto ">
         <label
           v-for="(item, value, index) in AllSlots"
           :key="index"
@@ -26,7 +26,6 @@
             ease-in
             delay-150
             duration-200
-            focus:
           "
           :class="checked == value ? 'bg-sky-100' : 'bg-white'"
         >
@@ -53,10 +52,10 @@
           class="
             p-2
             rounded
-            shadow
-            shadow-gray-400
+            shadow shadow-gray-400
             font-medium
             focus:bg-sky-800 focus:text-white focus:border-white
+            
           "
           v-for="(slot, index) in AllSlots[checked]"
           :key="index"
@@ -103,7 +102,7 @@
         "
       >
         <button
-          class="py-2 font-semibold px-12 bg-sky-600 text-white rounded-md"
+          class="py-2 font-semibold px-12 bg-sky-800 text-white rounded-md"
         >
           Book
         </button>
@@ -168,12 +167,13 @@ export default {
   computed: {
     dateFormate(value) {
       return (value) => {
+        //2022-03-15
         let arrOfDate = [];
         let val = value.split("-");
         let todayDate = new Date(value);
         let todayDay = todayDate.getDay();
         let daysName = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-        console.log(daysName[todayDay]);
+        // console.log(daysName[todayDay]);
         arrOfDate.push(daysName[todayDay]);
         arrOfDate.push(val[2]);
         arrOfDate.push(val[0]);
@@ -186,13 +186,14 @@ export default {
     var dt = new Date();
     let year = dt.getFullYear();
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
-    let day = (dt.getDate() + 1).toString().padStart(2, "0");
-    let day1 = dt.getDate().toString().padStart(2, "0");
+    let day = dt.getDate().toString().padStart(2, "0");
+    let day1 = (dt.getDate() + 1).toString().padStart(2, "0");
     // time
     var time = dt.getHours();
     var minute = dt.getMinutes();
     var timeToCheck = time + ":" + minute;
     if (timeToCheck < "19:30") {
+      console.log(timeToCheck < "19:30");
       let today = year + "-" + month + "-" + day;
       this.checked = today;
     } else {
@@ -217,7 +218,6 @@ export default {
     },
     getTime(e) {
       this.selectedTime = e;
-      // console.log(this.selectedTime);
     },
   },
 };
@@ -225,7 +225,4 @@ export default {
 
 
 <style scoped>
-.active {
-  background: red;
-}
 </style>
