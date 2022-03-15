@@ -193,13 +193,13 @@ export default {
     var minute = dt.getMinutes();
     var timeToCheck = time + ":" + minute;
     if (timeToCheck < "19:30") {
-      let today = year + "-" + month + "-" + day1;
-      this.checked = today;
-    } else {
       let today = year + "-" + month + "-" + day;
       this.checked = today;
+    } else {
+      let today = year + "-" + month + "-" + day1;
+      this.checked = today;
     }
-    // console.log(this.checked);
+    console.log(this.checked);
   },
 
   async created() {
