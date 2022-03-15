@@ -17,7 +17,7 @@
             radio-group
             px-4
             py-2
-            shadow-md
+            shadow
             rounded
             text-sky-800
             border-2 border-sky-600
@@ -53,7 +53,8 @@
           class="
             p-2
             rounded
-            drop-shadow-md
+            shadow
+            shadow-gray-400
             font-medium
             focus:bg-sky-800 focus:text-white focus:border-white
           "
