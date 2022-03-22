@@ -1,5 +1,8 @@
 <template>
   <div class="md:w-2/4 mx-auto space-y-4">
+    <!-- {{ this.$store.state.Date }} |
+    {{ this.$store.state.Time }} -->
+
     <div class="heading text-center mt-4 space-y-2">
       <h1 class="text-2xl font-semibold">
         Book Your <span class="text-red-400">Free</span> Consultation
@@ -8,7 +11,7 @@
       <p>Please Select Date & Time</p>
     </div>
     <div v-if="loading">
-      <div class="md:w-1/2 grid grid-cols-4 text-center py-2 mx-auto">
+      <div class="md:w-1/2 w-80 grid grid-cols-4 text-center py-2 mx-auto">
         <label
           v-for="(item, value, index) in AllSlots"
           :key="index"
@@ -189,9 +192,13 @@ export default {
     let year = dt.getFullYear();
     let month = (dt.getMonth() + 1).toString().padStart(2, "0");
     let day = dt.getDate().toString().padStart(2, "0");
+    let nexDay = (dt.getDate() + 1).toString().padStart(2, "0");
+
     // time
     let today = year + "-" + month + "-" + day;
-    this.checked = today;
+    let nextDay1 = year + "-" + month + "-" + nexDay;
+
+    this.AllSlots == "" ? this.checked = today : this.checked = nextDay1;
     console.log(this.checked);
   },
 
@@ -210,6 +217,10 @@ export default {
     },
     getTime(e) {
       this.selectedTime = e;
+      this.$store.dispatch("updateSlot", {
+        time: this.selectedTime,
+        date: this.checked,
+      });
     },
   },
 };
